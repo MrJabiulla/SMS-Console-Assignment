@@ -78,6 +78,22 @@ DEMO_TENANT_ID=00000000-0000-0000-0000-000000000000
 
     await tester.binding.setSurfaceSize(null);
   });
+
+  testWidgets('matches desktop SMS console golden', (tester) async {
+    await tester.binding.setSurfaceSize(const Size(1400, 900));
+    await tester.pumpWidget(const SmsConsoleApp());
+    await _pumpUntilFound(
+      tester,
+      find.widgetWithText(ElevatedButton, 'Send SMS'),
+    );
+
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/sms_console_desktop.png'),
+    );
+
+    await tester.binding.setSurfaceSize(null);
+  });
 }
 
 Future<void> _pumpUntilFound(WidgetTester tester, Finder finder) async {

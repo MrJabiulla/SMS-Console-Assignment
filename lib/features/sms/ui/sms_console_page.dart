@@ -8,6 +8,7 @@ import '../../../shared/utils/snack_message.dart';
 import '../../../shared/widgets/app_empty_view.dart';
 import '../../../shared/widgets/app_error_view.dart';
 import '../../../shared/widgets/app_loader.dart';
+import '../../../shared/widgets/responsive_page.dart';
 import '../bloc/sms_bloc.dart';
 import 'widgets/cost_breakdown_card.dart';
 import 'widgets/message_history_list.dart';
@@ -63,12 +64,9 @@ class SmsConsolePage extends StatelessWidget {
                   );
                 }
 
-                return ListView(
-                  children: [
-                    SmsSendForm(isSending: state.isSending),
-                    const SizedBox(height: 20),
-                    SizedBox(height: 520, child: _Dashboard(state: state)),
-                  ],
+                return ResponsivePage(
+                  form: SmsSendForm(isSending: state.isSending),
+                  content: _Dashboard(state: state),
                 );
               },
             ),
