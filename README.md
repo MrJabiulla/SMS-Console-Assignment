@@ -11,6 +11,14 @@ flutter run
 
 The app uses mock data by default so it can be reviewed without the real backend.
 
+## Screenshots
+
+| Platform | Screenshot |
+| --- | --- |
+| Android phone, 360 px logical width | ![Android phone SMS Console screenshot](docs/screenshots/android-phone-sms-console.png) |
+| Web desktop, 1400 px layout | ![Web desktop SMS Console screenshot](docs/screenshots/web-desktop-sms-console.png) |
+| iOS Simulator phone | ![iOS Simulator SMS Console screenshot](docs/screenshots/ios-phone-sms-console.png) |
+
 ## Configuration
 
 Copy `.env.example` to `.env` and update local runtime configuration:
@@ -50,6 +58,8 @@ compact phone and 1400 px desktop layouts.
 
 ## Cross-platform Notes
 
+- Run proof: verified on iOS Simulator and Chrome Web desktop.
+- Additional mobile proof: verified on Android emulator at 360 px logical width.
 - Input uses Flutter text fields with standard keyboard behavior; phone and
   message validation are handled before submit.
 - Fonts rely on the platform/default Material font stack, with Roboto loaded in
@@ -65,11 +75,10 @@ compact phone and 1400 px desktop layouts.
 
 - Real token refresh flow. The contract documents it, but this assignment does
   not include an auth backend.
-- Manual platform screenshots are still pending.
 - Bulk SMS was not implemented because the required shipped surface is send SMS,
   paginated history, and cost breakdown.
 
 ## Next Week
 
-I would add secure storage, token refresh, real integration tests against a mock
-HTTP server, and screenshot evidence for two platforms.
+I would add secure storage, token refresh, and real integration tests against a
+mock HTTP server.
