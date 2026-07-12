@@ -22,7 +22,7 @@ Future<void> init() async {
     fallbackAccessToken: config.demoAccessToken,
     fallbackTenantId: config.demoTenantId,
   );
-  final smsCache = await SmsLocalCache.create();
+  final smsCache = await SmsLocalCache.create(localManager: localManager);
 
   sl.registerLazySingleton(() => config);
   sl.registerLazySingleton(() => http.Client());

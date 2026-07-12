@@ -34,8 +34,8 @@ authentication and secure storage instead of a bundled env asset.
 - Added typed SMS models instead of `dynamic` at call sites.
 - Added fixed-scale `Money` arithmetic so decimal strings are never parsed as
   `double`.
-- Added responsive phone/desktop layout, light/dark theme, reusable form, cost,
-  empty, error, and loading components.
+- Added compact phone and desktop split layouts, light/dark theme, reusable
+  form, cost, empty, error, and loading components.
 
 ## Tests
 
@@ -45,19 +45,31 @@ flutter test
 ```
 
 Included tests cover decimal money arithmetic, Bloc loading with masked
-recipients, a widget validation failure path, and a skipped golden placeholder
-that can be recorded with `flutter test --update-goldens`.
+recipients, a widget validation failure path, and recorded golden coverage for
+compact phone and 1400 px desktop layouts.
+
+## Cross-platform Notes
+
+- Input uses Flutter text fields with standard keyboard behavior; phone and
+  message validation are handled before submit.
+- Fonts rely on the platform/default Material font stack, with Roboto loaded in
+  golden tests to keep snapshots stable.
+- Scrolling is explicit for the send form and message history so compact screens
+  and desktop windows do not clip core actions.
+- Window resize switches between compact and desktop split layouts at the shared
+  responsive breakpoint.
+- Text selection is left to the platform defaults; no custom selection toolbar or
+  copy workflow was added.
 
 ## Deliberately Not Done
 
 - Real token refresh flow. The contract documents it, but this assignment does
   not include an auth backend.
-- Platform screenshots are still pending.
+- Manual platform screenshots are still pending.
 - Bulk SMS was not implemented because the required shipped surface is send SMS,
   paginated history, and cost breakdown.
 
 ## Next Week
 
 I would add secure storage, token refresh, real integration tests against a mock
-HTTP server, recorded goldens for mobile/desktop layouts, and screenshot
-evidence for two platforms.
+HTTP server, and screenshot evidence for two platforms.
