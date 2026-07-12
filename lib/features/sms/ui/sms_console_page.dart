@@ -46,33 +46,74 @@ class SmsConsolePage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(title: const Text(Strings.appTitle)),
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: BlocBuilder<SmsBloc, SmsState>(
-              builder: (context, state) {
-                if (state.status == SmsViewStatus.loading ||
-                    state.status == SmsViewStatus.initial) {
-                  return const Center(child: CircularProgressIndicator());
-                }
+          child: BlocBuilder<SmsBloc, SmsState>(
+            builder: (context, state) {
+              if (state.status == SmsViewStatus.loading ||
+                  state.status == SmsViewStatus.initial) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
-                if (state.status == SmsViewStatus.failure) {
-                  return AppErrorView(
-                    message:
-                        state.failure?.message ?? Strings.couldNotLoadSmsData,
-                    onRetry: () =>
-                        context.read<SmsBloc>().add(const SmsRetryRequested()),
-                  );
-                }
-
-                return ResponsivePage(
-                  form: SmsSendForm(isSending: state.isSending),
-                  content: _Dashboard(state: state),
+              if (state.status == SmsViewStatus.failure) {
+                return AppErrorView(
+                  message:
+                      state.failure?.message ?? Strings.couldNotLoadSmsData,
+                  onRetry: () =>
+                      context.read<SmsBloc>().add(const SmsRetryRequested()),
                 );
-              },
-            ),
+              }
+
+              return ResponsivePage(
+                compactBuilder: (context, constraints) =>
+                    _CompactSmsConsole(state: state),
+                expandedBuilder: (context, constraints) =>
+                    _DesktopSmsConsole(state: state),
+              );
+            },
           ),
         ),
       ),
+    );
+  }
+}
+
+class _CompactSmsConsole extends StatelessWidget {
+  const _CompactSmsConsole({required this.state});
+
+  final SmsState state;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      key: const ValueKey('sms-console-compact-layout'),
+      children: [
+        SmsSendForm(isSending: state.isSending),
+        const SizedBox(height: 20),
+        SizedBox(height: 520, child: _Dashboard(state: state)),
+      ],
+    );
+  }
+}
+
+class _DesktopSmsConsole extends StatelessWidget {
+  const _DesktopSmsConsole({required this.state});
+
+  final SmsState state;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      key: const ValueKey('sms-console-desktop-layout'),
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SizedBox(
+          width: 420,
+          child: SingleChildScrollView(
+            child: SmsSendForm(isSending: state.isSending),
+          ),
+        ),
+        const SizedBox(width: 24),
+        Expanded(child: _Dashboard(state: state)),
+      ],
     );
   }
 }

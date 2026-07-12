@@ -79,12 +79,20 @@ DEMO_TENANT_ID=00000000-0000-0000-0000-000000000000
     await tester.binding.setSurfaceSize(null);
   });
 
-  testWidgets('matches desktop SMS console golden', (tester) async {
+  testWidgets('uses split layout and matches desktop SMS console golden', (
+    tester,
+  ) async {
     await tester.binding.setSurfaceSize(const Size(1400, 900));
     await tester.pumpWidget(const SmsConsoleApp());
     await _pumpUntilFound(
       tester,
       find.widgetWithText(ElevatedButton, 'Send SMS'),
+    );
+
+    expect(find.byKey(const ValueKey('sms-console-desktop-layout')), findsOne);
+    expect(
+      find.byKey(const ValueKey('sms-console-compact-layout')),
+      findsNothing,
     );
 
     await expectLater(

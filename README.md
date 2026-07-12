@@ -11,6 +11,14 @@ flutter run
 
 The app uses mock data by default so it can be reviewed without the real backend.
 
+## Screenshots
+
+| Platform | Screenshot |
+| --- | --- |
+| Android phone, 360 px logical width | ![Android phone SMS Console screenshot](docs/screenshots/android-phone-sms-console.png) |
+| Web desktop, 1400 px layout | ![Web desktop SMS Console screenshot](docs/screenshots/web-desktop-sms-console.png) |
+| iOS Simulator phone | ![iOS Simulator SMS Console screenshot](docs/screenshots/ios-phone-sms-console.png) |
+
 ## Configuration
 
 Copy `.env.example` to `.env` and update local runtime configuration:
@@ -34,8 +42,8 @@ authentication and secure storage instead of a bundled env asset.
 - Added typed SMS models instead of `dynamic` at call sites.
 - Added fixed-scale `Money` arithmetic so decimal strings are never parsed as
   `double`.
-- Added responsive phone/desktop layout, light/dark theme, reusable form, cost,
-  empty, error, and loading components.
+- Added compact phone and desktop split layouts, light/dark theme, reusable
+  form, cost, empty, error, and loading components.
 
 ## Tests
 
@@ -45,19 +53,32 @@ flutter test
 ```
 
 Included tests cover decimal money arithmetic, Bloc loading with masked
-recipients, a widget validation failure path, and a skipped golden placeholder
-that can be recorded with `flutter test --update-goldens`.
+recipients, a widget validation failure path, and recorded golden coverage for
+compact phone and 1400 px desktop layouts.
+
+## Cross-platform Notes
+
+- Run proof: verified on iOS Simulator and Chrome Web desktop.
+- Additional mobile proof: verified on Android emulator at 360 px logical width.
+- Input uses Flutter text fields with standard keyboard behavior; phone and
+  message validation are handled before submit.
+- Fonts rely on the platform/default Material font stack, with Roboto loaded in
+  golden tests to keep snapshots stable.
+- Scrolling is explicit for the send form and message history so compact screens
+  and desktop windows do not clip core actions.
+- Window resize switches between compact and desktop split layouts at the shared
+  responsive breakpoint.
+- Text selection is left to the platform defaults; no custom selection toolbar or
+  copy workflow was added.
 
 ## Deliberately Not Done
 
 - Real token refresh flow. The contract documents it, but this assignment does
   not include an auth backend.
-- Platform screenshots are still pending.
 - Bulk SMS was not implemented because the required shipped surface is send SMS,
   paginated history, and cost breakdown.
 
 ## Next Week
 
-I would add secure storage, token refresh, real integration tests against a mock
-HTTP server, recorded goldens for mobile/desktop layouts, and screenshot
-evidence for two platforms.
+I would add secure storage, token refresh, and real integration tests against a
+mock HTTP server.
